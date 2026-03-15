@@ -294,7 +294,12 @@ PrefabInstance:
     - target: {fileID: 6839772160396333456, guid: 34656a51bb14be34ca4fc86dc50e5ebf,
         type: 3}
       propertyPath: m_Name
-      value: ObjetoRecolectable (4)
+      value: ObjetoRecolectable Malo
+      objectReference: {fileID: 0}
+    - target: {fileID: 6839772160396333456, guid: 34656a51bb14be34ca4fc86dc50e5ebf,
+        type: 3}
+      propertyPath: m_TagString
+      value: Malo
       objectReference: {fileID: 0}
     - target: {fileID: 6839772160396333468, guid: 34656a51bb14be34ca4fc86dc50e5ebf,
         type: 3}
