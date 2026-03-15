@@ -31,32 +31,50 @@ public class player_controller : MonoBehaviour
         rb.AddForce(movimiento * speed);
     }
 
-    void OnTriggerEnter(Collider other)
+void OnTriggerEnter(Collider other)
+{
+    if(other.CompareTag("Recolectable"))
     {
-        if(other.gameObject.CompareTag("Recolectable"))
-        {
-            puntaje += 1;
-            Debug.Log("Objeto bueno +1 punto. Puntaje total: " + puntaje);
+        puntaje += 1;
 
-            particulas.position = other.transform.position;
-            systemaParticulas.Play();
+        Debug.Log("Objeto bueno +1 punto. Puntaje total: " + puntaje);
 
-            sonido.Play();
+        GameManager.BonusTiempo(2f);
 
-            other.gameObject.SetActive(false);
-        }
+        particulas.position = other.transform.position;
+        systemaParticulas.Play();
 
-        if(other.gameObject.CompareTag("Malo"))
-        {
-            puntaje -= 1;
-            Debug.Log("Objeto malo -1 punto. Puntaje total: " + puntaje);
+        if(sonido != null)
+        sonido.Play();
 
-            other.gameObject.SetActive(false);
-        }
-
-        if(other.gameObject.CompareTag("Final"))
-        {
-            Debug.Log("Juego terminado. Puntaje final: " + puntaje);
-        }
+        other.gameObject.SetActive(false);
     }
+
+    else if(other.CompareTag("Malo"))
+    {
+        puntaje -= 1;
+
+        Debug.Log("Objeto malo -1 punto. Puntaje total: " + puntaje);
+
+        GameManager.PenalizacionTiempo(2f);
+
+        particulas.position = other.transform.position;
+        systemaParticulas.Play();
+
+        if(sonido != null)
+        sonido.Play();
+
+        other.gameObject.SetActive(false);
+    }
+
+    else if(other.CompareTag("Final"))
+    {
+        GameManager.GanarJuego(puntaje);
+    }
+
+    else if(other.CompareTag("Death"))
+    {
+        GameManager.ReiniciarJuego();
+    }
+}
 }
