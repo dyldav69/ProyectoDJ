@@ -10,7 +10,7 @@ public class player_controller : MonoBehaviour
     public Transform particulas;
     private ParticleSystem systemaParticulas;
 
-    public AudioSource sonido;
+    private AudioSource sonido;
 
     private int puntaje = 0;
 
@@ -19,6 +19,7 @@ public class player_controller : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         systemaParticulas = particulas.GetComponent<ParticleSystem>();
         systemaParticulas.Stop();
+        sonido=GetComponent<AudioSource>();
     }
 
     void FixedUpdate()
@@ -42,12 +43,14 @@ void OnTriggerEnter(Collider other)
         GameManager.BonusTiempo(2f);
 
         particulas.position = other.transform.position;
+        systemaParticulas.Stop();
         systemaParticulas.Play();
 
         if(sonido != null)
         sonido.Play();
 
         other.gameObject.SetActive(false);
+       
     }
 
     else if(other.CompareTag("Malo"))
@@ -59,6 +62,7 @@ void OnTriggerEnter(Collider other)
         GameManager.PenalizacionTiempo(2f);
 
         particulas.position = other.transform.position;
+        systemaParticulas.Stop();
         systemaParticulas.Play();
 
         if(sonido != null)
