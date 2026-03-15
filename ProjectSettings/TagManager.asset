@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Recolectable
   - Malo
+  - Final
   layers:
   - Default
   - TransparentFX
