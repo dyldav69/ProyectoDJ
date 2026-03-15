@@ -10,43 +10,53 @@ public class player_controller : MonoBehaviour
     public Transform particulas;
     private ParticleSystem systemaParticulas;
 
-    private Vector3 posicion;
-    // Start is called before the first frame update
+    public AudioSource sonido;
+
+    private int puntaje = 0;
+
     void Start()
     {
-        rb = GetComponent<Rigidbody> ();
-        systemaParticulas=particulas.GetComponent <ParticleSystem>();
+        rb = GetComponent<Rigidbody>();
+        systemaParticulas = particulas.GetComponent<ParticleSystem>();
         systemaParticulas.Stop();
     }
 
-    // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        
-            }
-             
-    void FixedUpdate(){
-        float moveHorizontal = Input.GetAxis ("Horizontal");
-        float moveVertical = Input.GetAxis ("Vertical");
+        float moveHorizontal = Input.GetAxis("Horizontal");
+        float moveVertical = Input.GetAxis("Vertical");
 
-        Vector3 movimiento= new Vector3 (moveHorizontal,0.0f, moveVertical);
+        Vector3 movimiento = new Vector3(moveHorizontal, 0.0f, moveVertical);
 
         rb.AddForce(movimiento * speed);
-        
     }
+
     void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.CompareTag("Recolectable"))
         {
-            posicion=other.gameObject.transform.position;
-            particulas.position=posicion;
-            systemaParticulas=particulas.GetComponent<ParticleSystem>();
+            puntaje += 1;
+            Debug.Log("Objeto bueno +1 punto. Puntaje total: " + puntaje);
+
+            particulas.position = other.transform.position;
             systemaParticulas.Play();
-        other.gameObject.SetActive (false);
+
+            sonido.Play();
+
+            other.gameObject.SetActive(false);
         }
-        else
+
+        if(other.gameObject.CompareTag("Malo"))
         {
-            
+            puntaje -= 1;
+            Debug.Log("Objeto malo -1 punto. Puntaje total: " + puntaje);
+
+            other.gameObject.SetActive(false);
+        }
+
+        if(other.gameObject.CompareTag("Final"))
+        {
+            Debug.Log("Juego terminado. Puntaje final: " + puntaje);
         }
     }
 }
